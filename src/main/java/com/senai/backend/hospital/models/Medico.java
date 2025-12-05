@@ -26,30 +26,30 @@ public class Medico {
     @Column(name="especializacao")
     private String especializacao;
 
-    @Column(name="limiteDiario")
+    @Column(name="limite_diario")
     private int limiteDiario;
 
     @Column(name="status")
     private boolean status;
 
-    @Column(name="dataHoraCriacao")
+    @Column(name="data_hora_criacao")
     private LocalDateTime dataHoraCriacao;
 
-    @Column(name="dataHoraAtualizacao")
+    @Column(name="data_hora_atualizacao")
     private LocalDateTime dataHoraAtualizacao;
 
-    @OneToMany(mappedBy="carga_horaria")
+    @OneToMany(mappedBy="medico")
     private List<CargaHoraria> listaCargaHoraria;
 
-    @OneToMany(mappedBy="agendamento")
+    @OneToMany(mappedBy="medico")
     private List<Agendamento> agendamentos;
 
     public Medico() {
     }
 
     public Medico(LocalDateTime dataHoraAtualizacao, LocalDateTime dataHoraCriacao, String especializacao, Integer id, int limiteDiario, List<CargaHoraria> listaCargaHoraria, String nome, boolean status, List<Agendamento> agendamentos) {
-        this.dataHoraAtualizacao = dataHoraAtualizacao;
-        this.dataHoraCriacao = dataHoraCriacao;
+        this.dataHoraAtualizacao = LocalDateTime.now();
+        this.dataHoraCriacao = LocalDateTime.now();
         this.especializacao = especializacao;
         this.id = id;
         this.limiteDiario = limiteDiario;

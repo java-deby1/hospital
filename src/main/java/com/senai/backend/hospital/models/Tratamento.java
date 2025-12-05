@@ -3,11 +3,17 @@ package com.senai.backend.hospital.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.senai.backend.hospital.enums.Status;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -20,8 +26,9 @@ public class Tratamento {
     @Column(name="id")
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="status")
-    private String status;
+    private Status status;
 
     @Column(name="descricao")
     private String descricao;
@@ -32,27 +39,32 @@ public class Tratamento {
     @Column(name="duracao_minutos")
     private int duracaoMinutos;
 
-    @Column(name="dataHoraCriacao")
+    @Column(name="data_hora_criacao")
     private LocalDateTime dataHoraCriacao;
 
-    @Column(name="dataHoraAtualizacao")
+    @Column(name="data_hora_atualizacao")
     private LocalDateTime dataHoraAtualizacao;
 
-    @OneToMany(mappedBy="categoria")
+    @OneToMany(mappedBy="tratamento")
     private List<Categoria> categorias;
+
+    @ManyToOne
+    @JoinColumn(name="agendamento_id")
+    private Agendamento agendamento;
 
     public Tratamento() {
     }
 
-    public Tratamento(Double custo, LocalDateTime dataHoraAtualizacao, LocalDateTime dataHoraCriacao, String descricao, int duracaoMinutos, Integer id, String status, List<Categoria> categorias) {
+    public Tratamento(Double custo, LocalDateTime dataHoraAtualizacao, LocalDateTime dataHoraCriacao, String descricao, int duracaoMinutos, Integer id, Status status, List<Categoria> categorias, Agendamento agendamento) {
         this.custo = custo;
-        this.dataHoraAtualizacao = dataHoraAtualizacao;
-        this.dataHoraCriacao = dataHoraCriacao;
+        this.dataHoraAtualizacao = LocalDateTime.now();
+        this.dataHoraCriacao = LocalDateTime.now();
         this.descricao = descricao;
         this.duracaoMinutos = duracaoMinutos;
         this.id = id;
         this.status = status;
         this.categorias = categorias;
+        this.agendamento = agendamento;
     }
 
     public Integer getId() {
@@ -63,11 +75,11 @@ public class Tratamento {
         this.id = id;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -117,6 +129,14 @@ public class Tratamento {
 
     public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
+    }
+
+    public Agendamento getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(Agendamento agendamento) {
+        this.agendamento = agendamento;
     }
 
 }

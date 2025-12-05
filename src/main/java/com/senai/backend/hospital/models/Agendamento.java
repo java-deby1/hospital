@@ -5,6 +5,8 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +14,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import com.senai.backend.hospital.enums.Status;
 
 @Entity
 @Table(name="agendamento")
@@ -28,10 +32,11 @@ public class Agendamento {
     @Column(name="observacoes_medicas")
     private String observacoesMedicas;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="status")
-    private String status;
+    private Status status;
 
-    @OneToMany(mappedBy="tratamento")
+    @OneToMany(mappedBy="agendamento")
     private List<Tratamento> tratamentos;
 
     @ManyToOne
@@ -45,7 +50,7 @@ public class Agendamento {
     public Agendamento() {
     }
 
-    public Agendamento(LocalDateTime dataHora, Integer id, Medico medico, String observacoesMedicas, Paciente paciente, String status, List<Tratamento> tratamentos) {
+    public Agendamento(LocalDateTime dataHora, Integer id, Medico medico, String observacoesMedicas, Paciente paciente, Status status, List<Tratamento> tratamentos) {
         this.dataHora = dataHora;
         this.id = id;
         this.medico = medico;
@@ -79,11 +84,11 @@ public class Agendamento {
         this.observacoesMedicas = observacoesMedicas;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
